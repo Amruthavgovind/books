@@ -11,8 +11,19 @@ class BookController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        // $title = $request->title ?? '';
+        // $author = $request->author ?? '';
+        // $books = Book::when($title, function ($query) use ($title) {
+        //     return $query->where("title", "like", "%$title%");
+        // })
+        // ->when($author, function ($query) use ($author) {
+        //     return $query->where("author", "like", "%$author%");
+        // });
+
+        
         $books = Book::all();
 
         return view("index", compact('books'));
@@ -77,7 +88,9 @@ class BookController extends Controller
             'genre' => 'required|max:100',
         ]);
 
-        (new Book)->update($validation);
+
+        // dd($validation); exit;
+        $updatestat = Book::whereId($id)->update($validation);
 
         return redirect()->route('index');
     }
